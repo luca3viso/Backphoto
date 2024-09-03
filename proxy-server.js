@@ -77,6 +77,20 @@ app.post('/save-user', async (req, res) => {
   }
 });
 
+app.post('/generate-image', async (req, res) => {
+  try {
+    const generationResponse = await axios.post(
+      'https://cloud.leonardo.ai/api/rest/v1/generations',
+      req.body,
+      { headers: { Authorization: `Bearer ${API_KEY}` } }
+    );
+    res.json(generationResponse.data);
+  } catch (error) {
+    console.error('Error generating image:', error);
+    res.status(500).json({ error: 'Error generating image' });
+  }
+});
+
 app.post('/upload-image', async (req, res) => {
   console.log('Richiesta di upload ricevuta');
   try {
