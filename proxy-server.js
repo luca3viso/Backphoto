@@ -138,6 +138,19 @@ app.post('/validate-email', (req, res) => {
   res.json({ valid: isValid, message: isValid ? 'Email is valid' : 'Email is not valid' });
 });
 
+app.get('/check-generation/:id', async (req, res) => {
+  try {
+    const generationId = req.params.id;
+    const response = await axios.get(
+      `https://cloud.leonardo.ai/api/rest/v1/generations/${generationId}`,
+      { headers: { Authorization: `Bearer ${API_KEY}` } }
+    );
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error checking generation status:', error);
+    res.status(500).json({ error: 'Error checking generation status' });
+  }
+});
 
 app.get('/view-users', async (req, res) => {
   try {
